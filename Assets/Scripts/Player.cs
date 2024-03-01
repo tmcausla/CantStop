@@ -1,49 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public GameObject pointMarkerPrefab;
-    public int score2 = 0;
-    public GameObject score2Marker;
-    public int score3 = 0;
-    public GameObject score3Marker;
-    public int score4 = 0;
-    public GameObject score4Marker;
-    public int score5 = 0;
-    public GameObject score5Marker;
-    public int score6 = 0;
-    public GameObject score6Marker;
-    public int score7 = 0;
-    public GameObject score7Marker;
-    public Transform[] track7;
-    public int score8 = 0;
-    public GameObject score8Marker;
-    public int score9 = 0;
-    public GameObject score9Marker;
-    public int score10 = 0;
-    public GameObject score10Marker;
-    public int score11 = 0;
-    public GameObject score11Marker;
-    public int score12 = 0;
-    public GameObject score12Marker;
+    public int[] scores;
+    public GameObject[] scoreMarkers;
+    private GameManager gm;
+
+    private void Awake()
+    {
+        gm = FindObjectOfType<GameManager>();
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            score7++;
-            UpdateMarker();
+            UpdateScore(gm.activeTrack - 2);
         }
     }
 
-    private void UpdateMarker()
+    private void UpdateMarker(int activeTrack)
     {
-        if (!score7Marker)
+        if (!scoreMarkers[activeTrack])
         {
-            score7Marker = Instantiate(pointMarkerPrefab, track7[score7 - 1].position, track7[score7 - 1].rotation);
+            scoreMarkers[activeTrack] = Instantiate(pointMarkerPrefab, gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].position, gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].rotation);
         }
-        score7Marker.transform.position = track7[score7 - 1].position;
+
+        if (scores[activeTrack] <= gm.pointTracks[activeTrack].pointMax)
+        {
+            scoreMarkers[activeTrack].transform.position = gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].position;
+        }
+        
+    }
+
+    public void UpdateScore(int activeTrack)
+    {
+        scores[activeTrack]++;
+        UpdateMarker(activeTrack);
     }
 }
