@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
     public Sprite[] diceSides;
+    public Dice[] options;
     public SpriteRenderer rend;
     public int rollValue;
 
@@ -25,6 +26,16 @@ public class Dice : MonoBehaviour
         }
 
         rollValue = randomSide;
-        Debug.Log(rollValue);
+        //Debug.Log(rollValue);
+        UpdateOptions(rollValue);
+    }
+
+    private void UpdateOptions(int value)
+    {
+        foreach (Dice die in options)
+        {
+            die.gameObject.SetActive(true);
+            die.rend.sprite = die.diceSides[value - 1];
+        }
     }
 }

@@ -160,6 +160,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options:
+  - {fileID: 1867319874}
+  - {fileID: 1362227165}
+  - {fileID: 384770492}
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &19110838
@@ -350,6 +354,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options:
+  - {fileID: 1476836634}
+  - {fileID: 1244568983}
+  - {fileID: 1995845104}
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &27869309
@@ -602,6 +610,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &47090886
@@ -2680,6 +2689,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &350276427
@@ -2827,7 +2837,10 @@ MonoBehaviour:
   - {fileID: 19110837}
   - {fileID: 27869308}
   - {fileID: 1489083640}
-  optionsDice: {fileID: 2043381630}
+  optionsDice: {fileID: 2043381631}
+  and1: {fileID: 372912821}
+  and2: {fileID: 865655200}
+  and3: {fileID: 1108661118}
 --- !u!4 &367821556
 Transform:
   m_ObjectHideFlags: 0
@@ -3267,6 +3280,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &384770493
@@ -4614,6 +4628,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &636691183
@@ -6317,6 +6332,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &869456550
@@ -9182,6 +9198,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1244568984
@@ -10232,6 +10249,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1362227166
@@ -10537,6 +10555,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1403232404
@@ -11238,6 +11257,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1476836635
@@ -11543,6 +11563,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options:
+  - {fileID: 1403232403}
+  - {fileID: 350276426}
+  - {fileID: 636691182}
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1489083641
@@ -14078,6 +14102,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1833142241
@@ -14268,6 +14293,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1867319875
@@ -15104,6 +15130,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options: []
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &1995845105
@@ -15753,6 +15780,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e3c6c70d084f6647bed84caff7745f0, type: 3}
   - {fileID: 21300000, guid: e2bbe2d16716cf843b852966b52cf21e, type: 3}
   - {fileID: 21300000, guid: daac6aae472b9bb4bb802dae81472518, type: 3}
+  options:
+  - {fileID: 869456549}
+  - {fileID: 1833142240}
+  - {fileID: 47090885}
   rend: {fileID: 0}
   rollValue: 0
 --- !u!212 &2137020042

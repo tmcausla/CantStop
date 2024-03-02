@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,17 +8,22 @@ public class GameManager : MonoBehaviour
     public PointTrack[] pointTracks;
     public int activeTrack;
     public Dice[] diceSet;
-    public GameObject optionsDice;
+    public OptionsDice optionsDice;
+    [SerializeField] private TextMeshProUGUI and1;
+    [SerializeField] private TextMeshProUGUI and2;
+    [SerializeField] private TextMeshProUGUI and3;
 
     public void RollAllDice()
     {
-        optionsDice.SetActive(false);
+        optionsDice.HideDice();
         foreach (Dice die in diceSet)
         {
             StartCoroutine(die.RollDie());
         }
+    }
 
-        optionsDice.SetActive(true);
-        StartCoroutine(optionsDice.GetComponent<OptionsDice>().UpdateOptions(diceSet[0].rollValue, diceSet[1].rollValue, diceSet[2].rollValue, diceSet[3].rollValue));
+    public void HideUI()
+    {
+
     }
 }
