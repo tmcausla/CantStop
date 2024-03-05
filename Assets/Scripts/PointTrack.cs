@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PointTrack : MonoBehaviour
 {
-    public int trackLabel;
+    // highest point value player can achieve on a track
     public int pointMax;
+
+    // holds positions on the board for each step on a track
     public Transform[] trackMarkers;
 }

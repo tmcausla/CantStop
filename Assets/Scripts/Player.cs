@@ -16,21 +16,15 @@ public class Player : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            UpdateScore(gm.activeTrack - 2);
-        }
-    }
-
+    // moves appropriate point marker based on option button selection
     private void UpdateMarker(int activeTrack)
     {
-        if (!scoreMarkers[activeTrack])
+        if (!scoreMarkers[activeTrack]) // creates a point marker if none already exist
         {
             scoreMarkers[activeTrack] = Instantiate(pointMarkerPrefab, gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].position, gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].rotation);
         }
 
+        // moves point marker based on player score of active track
         if (scores[activeTrack] <= gm.pointTracks[activeTrack].pointMax)
         {
             scoreMarkers[activeTrack].transform.position = gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].position;
@@ -38,6 +32,7 @@ public class Player : MonoBehaviour
         
     }
 
+    // increments player score and updates point marker based on option button selection
     public void UpdateScore(int activeTrack)
     {
         scores[activeTrack]++;
