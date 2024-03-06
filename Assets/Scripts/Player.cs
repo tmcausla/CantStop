@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
         {
             scoreMarkers[activeTrack].transform.position = gm.pointTracks[activeTrack].trackMarkers[scores[activeTrack] - 1].position;
         }
-        
     }
 
     // increments player score and updates point marker based on option button selection

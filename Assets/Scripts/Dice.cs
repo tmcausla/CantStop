@@ -32,9 +32,7 @@ public class Dice : MonoBehaviour
         }
 
         rollValue = randomSide;
-        //Debug.Log(rollValue);
         UpdateOptions(rollValue);
-        gm.ShowUI();
     }
 
     // assigns sprite to options UI based on rolled value
