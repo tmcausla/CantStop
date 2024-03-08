@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public PointTrack[] pointTracks;
+    public int[] tempScores;
+    public GameObject[] tempScoreMarkers;
+    public GameObject tempScoreMarkerPrefab;
 
     //holds references for the 4 game dice
     public Dice[] diceSet;
@@ -23,10 +27,19 @@ public class GameManager : MonoBehaviour
 
     // reference for roll dice button
     [SerializeField] private GameObject rollDiceButton;
+    [SerializeField] private GameObject stopButton;
+    [SerializeField] private GameObject nextTurnButton;
     public Player activePlayer;
+    public Player[] players;
+    private int playerIdx = 0;
 
     // tracks and allows player to roll for up to 3 active lanes during their turn
     public List<int> activeLanes;
+
+    private void Start()
+    {
+        activePlayer = players[0];
+    }
 
     // UI elements are hidden when dice are rolled
     public void RollAllDice()
@@ -48,6 +61,7 @@ public class GameManager : MonoBehaviour
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
         rollDiceButton.SetActive(false);
+        stopButton.SetActive(false);
     }
 
     // shows UI elements
@@ -61,6 +75,11 @@ public class GameManager : MonoBehaviour
         combo1Buttons.DisplayButtonUI(diceSet[0].rollValue + diceSet[1].rollValue, diceSet[2].rollValue + diceSet[3].rollValue);
         combo2Buttons.DisplayButtonUI(diceSet[0].rollValue + diceSet[2].rollValue, diceSet[3].rollValue + diceSet[1].rollValue);
         combo3Buttons.DisplayButtonUI(diceSet[0].rollValue + diceSet[3].rollValue, diceSet[2].rollValue + diceSet[1].rollValue);
+
+        if (Busted())
+        {
+            nextTurnButton.SetActive(true);
+        }
     }
 
 
@@ -75,10 +94,15 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[3].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
-        activePlayer.UpdateScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
+        UpdateTempScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -90,9 +114,14 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[1].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -104,9 +133,14 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[3].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -123,10 +157,15 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[1].rollValue + diceSet[3].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
-        activePlayer.UpdateScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
+        UpdateTempScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -138,9 +177,14 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[2].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -152,9 +196,14 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[1].rollValue + diceSet[3].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -171,10 +220,15 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[1].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
-        activePlayer.UpdateScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -186,9 +240,14 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[3].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
+        UpdateTempScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
@@ -200,11 +259,79 @@ public class GameManager : MonoBehaviour
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[1].rollValue);
         }
-        activePlayer.UpdateScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
+        UpdateTempScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
 
         rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            stopButton.SetActive(true);
+        }
+
         combo1Buttons.HideButtons();
         combo2Buttons.HideButtons();
         combo3Buttons.HideButtons();
+    }
+
+    // moves appropriate point marker based on selected dice combo
+    private void UpdateTempMarker(int activeTrack)
+    {
+        if (!tempScoreMarkers[activeTrack]) // creates a point marker if none already exist
+        {
+            tempScoreMarkers[activeTrack] = Instantiate(tempScoreMarkerPrefab, pointTracks[activeTrack].trackMarkers[tempScores[activeTrack] - 1].position, pointTracks[activeTrack].trackMarkers[tempScores[activeTrack] - 1].rotation);
+        }
+        tempScoreMarkers[activeTrack].SetActive(true);
+        // moves point marker based on player score of active track
+        if (tempScores[activeTrack] <= pointTracks[activeTrack].pointMax)
+        {
+            tempScoreMarkers[activeTrack].transform.position = pointTracks[activeTrack].trackMarkers[tempScores[activeTrack] - 1].position;
+        }
+    }
+
+    // increments player score and updates point marker based on selected dice combo
+    private void UpdateTempScore(int activeTrack) // assumes active track was already subtracted by 2 when fxn is called
+    {
+        tempScores[activeTrack]++;
+        UpdateTempMarker(activeTrack);
+    }
+
+    public void StopAndScore()
+    {
+        foreach(int lane in activeLanes)
+        {
+            activePlayer.UpdateScore(lane - 2);
+            tempScoreMarkers[lane - 2].SetActive(false);
+        }
+        activeLanes.Clear();
+
+        rollDiceButton.SetActive(false);
+        nextTurnButton.SetActive(true);
+        stopButton.SetActive(false);
+    }
+
+    private bool Busted()
+    {
+        return combo1Buttons.bust && combo2Buttons.bust && combo3Buttons.bust;
+    }
+
+    public void StartNextTurn()
+    {
+        if (activeLanes.Count > 0)
+        {
+            foreach(int lane in activeLanes)
+            {
+                tempScoreMarkers[lane - 2].SetActive(false);
+            }
+            activeLanes.Clear();
+        }
+
+        playerIdx = playerIdx + 1 == players.Length ? 0 : playerIdx + 1;
+        activePlayer = players[playerIdx];
+
+        for (int i = 0; i < tempScores.Length; i++)
+        {
+            tempScores[i] = activePlayer.scores[i];
+        }
+        rollDiceButton.SetActive(true);
+        nextTurnButton.SetActive(false);
     }
 }

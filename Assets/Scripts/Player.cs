@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
     }
 
-    // moves appropriate point marker based on option button selection
+    // moves appropriate point marker based on selected dice combo
     private void UpdateMarker(int activeTrack)
     {
         if (!scoreMarkers[activeTrack]) // creates a point marker if none already exist
@@ -31,10 +31,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    // increments player score and updates point marker based on option button selection
+    // increments player score and updates point marker based on selected dice combo
     public void UpdateScore(int activeTrack)
     {
-        scores[activeTrack]++;
+        scores[activeTrack] = gm.tempScores[activeTrack];
         UpdateMarker(activeTrack);
     }
+    
 }

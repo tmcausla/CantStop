@@ -9,6 +9,7 @@ public class ButtonManager : MonoBehaviour
     public TextMeshProUGUI bothComboButtonText;
     public TextMeshProUGUI combo1ButtonText;
     public TextMeshProUGUI combo2ButtonText;
+    public bool bust = false;
     [SerializeField] private GameObject[] buttons;
 
     private void Awake()
@@ -18,7 +19,7 @@ public class ButtonManager : MonoBehaviour
 
     public void DisplayButtonUI(int sum1, int sum2)
     {
-        Debug.Log($"There are {gm.activeLanes.Count} active lanes");
+        bust = false;
         if (gm.activeLanes.Count < 2)
         {
             buttons[0].SetActive(true);
@@ -30,12 +31,10 @@ public class ButtonManager : MonoBehaviour
             // check if at least one combo is in active lanes list
             if (gm.activeLanes.Contains(sum1) || gm.activeLanes.Contains(sum2))
             {
-                Debug.Log("Activating one big button");
                 buttons[0].SetActive(true);
             }
             else 
             {
-                Debug.Log("Activating two small buttons");
                 buttons[1].SetActive(true);
                 buttons[2].SetActive(true);
             }
@@ -47,22 +46,20 @@ public class ButtonManager : MonoBehaviour
             // check if both combos are in active lanes list
             if (gm.activeLanes.Contains(sum1) && gm.activeLanes.Contains(sum2))
             {
-                Debug.Log("Activating one big button");
                 buttons[0].SetActive(true);
             }
             else if (gm.activeLanes.Contains(sum1))
             {
-                Debug.Log("Activating small left button");
                 buttons[1].SetActive(true);
             }
             else if (gm.activeLanes.Contains(sum2))
             {
-                Debug.Log("Activating small right button");
                 buttons[2].SetActive(true);
             }
             else
             {
                 Debug.Log("You bust! Next player's turn");
+                bust = true;
             }
             UpdateButtonText(sum1, sum2);
             return;

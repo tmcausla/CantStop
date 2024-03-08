@@ -11,11 +11,9 @@ public class Dice : MonoBehaviour
     public Dice[] options;
     public SpriteRenderer rend;
     public int rollValue;
-    private GameManager gm;
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
         rend = GetComponent<SpriteRenderer>();
     }
 
