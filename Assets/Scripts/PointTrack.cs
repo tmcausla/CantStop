@@ -9,4 +9,5 @@ public class PointTrack : MonoBehaviour
 
     // holds positions on the board for each step on a track
     public Transform[] trackMarkers;
+    public bool isFinished = false;
 }

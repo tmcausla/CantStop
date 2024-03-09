@@ -17,12 +17,31 @@ public class ButtonManager : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
     }
 
+    private bool IsValid(int activeTrack)
+    {
+        return !gm.pointTracks[activeTrack - 2].isFinished && gm.tempScores[activeTrack - 2] < gm.pointTracks[activeTrack - 2].pointMax;
+    }
+
     public void DisplayButtonUI(int sum1, int sum2)
     {
         bust = false;
         if (gm.activeLanes.Count < 2)
         {
-            buttons[0].SetActive(true);
+            if (IsValid(sum1) && IsValid(sum2))
+            {
+                buttons[0].SetActive(true);
+            }
+            else
+            {
+                buttons[1].SetActive(IsValid(sum1));
+                buttons[2].SetActive(IsValid(sum2));
+            }
+            if (!IsValid(sum1) && !IsValid(sum2))
+            {
+                Debug.Log("No valid dice combo");
+                bust = true;
+            }
+            
             UpdateButtonText(sum1, sum2);
             return;
         }
@@ -31,13 +50,42 @@ public class ButtonManager : MonoBehaviour
             // check if at least one combo is in active lanes list
             if (gm.activeLanes.Contains(sum1) || gm.activeLanes.Contains(sum2))
             {
-                buttons[0].SetActive(true);
+                if (IsValid(sum1) && IsValid(sum2))
+                {
+                    buttons[0].SetActive(true);
+                }
+                else
+                {
+                    buttons[1].SetActive(IsValid(sum1));
+                    buttons[2].SetActive(IsValid(sum2));
+                }
+                if (!IsValid(sum1) && !IsValid(sum2))
+                {
+                    Debug.Log("No valid dice combo");
+                    bust = true;
+                }
+            }
+            else if (sum1 == sum2)
+            {
+                buttons[0].SetActive(IsValid(sum1));
+                if (!IsValid(sum1))
+                {
+                    Debug.Log("No valid dice combo");
+                    bust = true;
+                }
             }
             else 
             {
-                buttons[1].SetActive(true);
-                buttons[2].SetActive(true);
+                buttons[1].SetActive(IsValid(sum1));
+                buttons[2].SetActive(IsValid(sum2));
             }
+
+            if (!IsValid(sum1) && !IsValid(sum2))
+            {
+                Debug.Log("No valid dice combo");
+                bust = true;
+            }
+
             UpdateButtonText(sum1, sum2);
             return;
         }
@@ -46,21 +94,41 @@ public class ButtonManager : MonoBehaviour
             // check if both combos are in active lanes list
             if (gm.activeLanes.Contains(sum1) && gm.activeLanes.Contains(sum2))
             {
-                buttons[0].SetActive(true);
+                if (IsValid(sum1) && IsValid(sum2))
+                {
+                    buttons[0].SetActive(true);
+                }
+                else
+                {
+                    buttons[1].SetActive(IsValid(sum1));
+                    buttons[2].SetActive(IsValid(sum2));
+                }
+                if (!IsValid(sum1) && !IsValid(sum2))
+                {
+                    Debug.Log("No valid dice combo");
+                    bust = true;
+                }
             }
             else if (gm.activeLanes.Contains(sum1))
             {
-                buttons[1].SetActive(true);
+                buttons[1].SetActive(IsValid(sum1));
             }
             else if (gm.activeLanes.Contains(sum2))
             {
-                buttons[2].SetActive(true);
+                buttons[2].SetActive(IsValid(sum2));
             }
-            else
+            else if (!gm.activeLanes.Contains(sum1) && !gm.activeLanes.Contains(sum2))
             {
-                Debug.Log("You bust! Next player's turn");
+                Debug.Log("No valid dice combo");
                 bust = true;
             }
+
+            if (!IsValid(sum1) && !IsValid(sum2))
+            {
+                Debug.Log("No valid dice combo");
+                bust = true;
+            }
+
             UpdateButtonText(sum1, sum2);
             return;
         }

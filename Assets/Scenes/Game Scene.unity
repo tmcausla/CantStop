@@ -1377,6 +1377,7 @@ MonoBehaviour:
   - {fileID: 1763020063}
   - {fileID: 1095586853}
   - {fileID: 893851721}
+  isFinished: 0
 --- !u!1 &157679002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,6 +1996,7 @@ MonoBehaviour:
   - {fileID: 1324859380}
   - {fileID: 2091747383}
   - {fileID: 976406133}
+  isFinished: 0
 --- !u!1 &237992567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2677,6 +2679,7 @@ MonoBehaviour:
   - {fileID: 1724273173}
   - {fileID: 1320724394}
   - {fileID: 1483014375}
+  isFinished: 0
 --- !u!1 &302961415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2833,6 +2836,7 @@ MonoBehaviour:
   - {fileID: 1161169853}
   - {fileID: 1870187215}
   - {fileID: 1637529828}
+  isFinished: 0
 --- !u!1 &349289016
 GameObject:
   m_ObjectHideFlags: 0
@@ -4655,6 +4659,7 @@ MonoBehaviour:
   - {fileID: 63733240}
   - {fileID: 682387677}
   - {fileID: 62164581}
+  isFinished: 0
 --- !u!1 &508257102
 GameObject:
   m_ObjectHideFlags: 0
@@ -6940,6 +6945,7 @@ MonoBehaviour:
   - {fileID: 670954371}
   - {fileID: 1464647541}
   - {fileID: 1165072474}
+  isFinished: 0
 --- !u!1 &833393703
 GameObject:
   m_ObjectHideFlags: 0
@@ -10739,6 +10745,7 @@ MonoBehaviour:
   - {fileID: 1234242954}
   - {fileID: 1783424765}
   - {fileID: 1348312269}
+  isFinished: 0
 --- !u!1 &1217699575
 GameObject:
   m_ObjectHideFlags: 0
@@ -11704,6 +11711,7 @@ MonoBehaviour:
   - {fileID: 1217699576}
   - {fileID: 2086319438}
   - {fileID: 833393704}
+  isFinished: 0
 --- !u!1 &1348312268
 GameObject:
   m_ObjectHideFlags: 0
@@ -14500,6 +14508,7 @@ MonoBehaviour:
   - {fileID: 1111887811}
   - {fileID: 834483746}
   - {fileID: 566355480}
+  isFinished: 0
 --- !u!1 &1581304712
 GameObject:
   m_ObjectHideFlags: 0
@@ -19080,6 +19089,7 @@ MonoBehaviour:
   - {fileID: 1541379870}
   - {fileID: 1230077279}
   - {fileID: 1606808340}
+  isFinished: 0
 --- !u!1 &2126231716
 GameObject:
   m_ObjectHideFlags: 0
@@ -19144,6 +19154,7 @@ MonoBehaviour:
   - {fileID: 901193624}
   - {fileID: 276134286}
   - {fileID: 41834302}
+  isFinished: 0
 --- !u!1 &2137020040
 GameObject:
   m_ObjectHideFlags: 0

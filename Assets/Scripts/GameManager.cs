@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     }
 
     // moves appropriate point marker based on selected dice combo
-    private void UpdateTempMarker(int activeTrack)
+    private void UpdateTempMarker(int activeTrack) // assumes active track was subtracted by 2 when UpdateTempScore is called
     {
         if (!tempScoreMarkers[activeTrack]) // creates a point marker if none already exist
         {
@@ -288,7 +288,7 @@ public class GameManager : MonoBehaviour
     }
 
     // increments player score and updates point marker based on selected dice combo
-    private void UpdateTempScore(int activeTrack) // assumes active track was already subtracted by 2 when fxn is called
+    private void UpdateTempScore(int activeTrack) // assumes active track was subtracted by 2 when fxn is called
     {
         tempScores[activeTrack]++;
         UpdateTempMarker(activeTrack);

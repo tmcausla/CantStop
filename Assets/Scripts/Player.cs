@@ -7,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject pointMarkerPrefab;
+    public int points = 0;
     public int[] scores;
     public GameObject[] scoreMarkers;
     private GameManager gm;
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour
     }
 
     // moves appropriate point marker based on selected dice combo
-    private void UpdateMarker(int activeTrack)
+    private void UpdateMarker(int activeTrack) // assumes active track was subtracted by 2 when UpdateScore is called
     {
         if (!scoreMarkers[activeTrack]) // creates a point marker if none already exist
         {
@@ -32,10 +33,19 @@ public class Player : MonoBehaviour
     }
 
     // increments player score and updates point marker based on selected dice combo
-    public void UpdateScore(int activeTrack)
+    public void UpdateScore(int activeTrack) // assumes active track was subtracted by 2 when this fxn is called
     {
         scores[activeTrack] = gm.tempScores[activeTrack];
         UpdateMarker(activeTrack);
+        if (scores[activeTrack] == gm.pointTracks[activeTrack].pointMax)
+        {
+            points++;
+            gm.pointTracks[activeTrack].isFinished = true;
+        }
+
+        if (points == 3)
+        {
+            Debug.Log($"{gameObject.name} wins!");
+        }
     }
-    
 }
