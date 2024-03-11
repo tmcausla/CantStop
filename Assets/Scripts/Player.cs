@@ -11,13 +11,14 @@ public class Player : MonoBehaviour
     public int[] scores;
     public GameObject[] scoreMarkers;
     private GameManager gm;
+    public Color playerColor;
 
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
     }
 
-    // moves appropriate point marker based on selected dice combo
+    // updates player point markers on active tracks
     private void UpdateMarker(int activeTrack) // assumes active track was subtracted by 2 when UpdateScore is called
     {
         if (!scoreMarkers[activeTrack]) // creates a point marker if none already exist
@@ -32,10 +33,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    // increments player score and updates point marker based on selected dice combo
+    // player scores for each active track based on temp score and updates player point markers on active tracks
     public void UpdateScore(int activeTrack) // assumes active track was subtracted by 2 when this fxn is called
     {
-        scores[activeTrack] = gm.tempScores[activeTrack];
+        scores[activeTrack] = gm.tempScores[activeTrack] > gm.pointTracks[activeTrack].pointMax ? gm.pointTracks[activeTrack].pointMax : gm.tempScores[activeTrack];
         UpdateMarker(activeTrack);
         if (scores[activeTrack] == gm.pointTracks[activeTrack].pointMax)
         {
@@ -43,8 +44,9 @@ public class Player : MonoBehaviour
             gm.pointTracks[activeTrack].isFinished = true;
         }
 
-        if (points == 3)
+        if (points >= 3)
         {
+            gm.gameOver = true;
             Debug.Log($"{gameObject.name} wins!");
         }
     }

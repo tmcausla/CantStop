@@ -112,18 +112,22 @@ public class ButtonManager : MonoBehaviour
             else if (gm.activeLanes.Contains(sum1))
             {
                 buttons[1].SetActive(IsValid(sum1));
+                if (!IsValid(sum1))
+                {
+                    Debug.Log("No valid dice combo");
+                    bust = true;
+                }
             }
             else if (gm.activeLanes.Contains(sum2))
             {
                 buttons[2].SetActive(IsValid(sum2));
+                if (!IsValid(sum2))
+                {
+                    Debug.Log("No valid dice combo");
+                    bust = true;
+                }
             }
-            else if (!gm.activeLanes.Contains(sum1) && !gm.activeLanes.Contains(sum2))
-            {
-                Debug.Log("No valid dice combo");
-                bust = true;
-            }
-
-            if (!IsValid(sum1) && !IsValid(sum2))
+            else
             {
                 Debug.Log("No valid dice combo");
                 bust = true;

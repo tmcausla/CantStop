@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject pointsMap;
+    [SerializeField] GameObject trackLabels;
     public PointTrack[] pointTracks;
     public int[] tempScores;
     public GameObject[] tempScoreMarkers;
@@ -29,24 +31,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject rollDiceButton;
     [SerializeField] private GameObject stopButton;
     [SerializeField] private GameObject nextTurnButton;
+
+    [SerializeField] private GameObject gameOverScreen;
     public Player activePlayer;
     public Player[] players;
     private int playerIdx = 0;
 
     // tracks and allows player to roll for up to 3 active lanes during their turn
     public List<int> activeLanes;
+    public bool gameOver = false;
 
     private void Start()
     {
         activePlayer = players[0];
     }
 
-    // UI elements are hidden when dice are rolled
+    // rolls the 4 game dice on a player's turn
     public void RollAllDice()
     {
-        HideUI();
+        HideUI(); // UI elements are hidden when dice are rolled
         foreach (Dice die in diceSet)
         {
+            die.rollValue = Random.Range(1, 7);
             StartCoroutine(die.RollDie());
         }
         StartCoroutine(ShowUI());
@@ -69,6 +75,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 19; i++)
         {
+            // pushes appearance of buttons until after dice rolling animations
             yield return new WaitForSeconds(0.11f);
         }
         andUI.SetActive(true);
@@ -78,12 +85,13 @@ public class GameManager : MonoBehaviour
 
         if (Busted())
         {
+            Debug.Log("You bust!");
             nextTurnButton.SetActive(true);
         }
     }
 
 
-    // updates player score using dice combo 1
+    // updates temp score using dice combo 1
     public void ConfirmOption1()
     {
         if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[1].rollValue))
@@ -146,7 +154,7 @@ public class GameManager : MonoBehaviour
         combo3Buttons.HideButtons();
     }
 
-    // updates player score using dice combo 2
+    // updates temp score using dice combo 2
     public void ConfirmOption2()
     {
         if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[2].rollValue))
@@ -209,7 +217,7 @@ public class GameManager : MonoBehaviour
         combo3Buttons.HideButtons();
     }
 
-    // updates player score using dice combo 3
+    // updates temp score using dice combo 3
     public void ConfirmOption3()
     {
         if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[3].rollValue))
@@ -272,10 +280,10 @@ public class GameManager : MonoBehaviour
         combo3Buttons.HideButtons();
     }
 
-    // moves appropriate point marker based on selected dice combo
+    // moves appropriate temp point marker based on selected dice combo
     private void UpdateTempMarker(int activeTrack) // assumes active track was subtracted by 2 when UpdateTempScore is called
     {
-        if (!tempScoreMarkers[activeTrack]) // creates a point marker if none already exist
+        if (!tempScoreMarkers[activeTrack]) // creates a point marker if none already exists
         {
             tempScoreMarkers[activeTrack] = Instantiate(tempScoreMarkerPrefab, pointTracks[activeTrack].trackMarkers[tempScores[activeTrack] - 1].position, pointTracks[activeTrack].trackMarkers[tempScores[activeTrack] - 1].rotation);
         }
@@ -287,7 +295,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // increments player score and updates point marker based on selected dice combo
+    // increments temp score and updates temp point marker based on selected dice combo
     private void UpdateTempScore(int activeTrack) // assumes active track was subtracted by 2 when fxn is called
     {
         tempScores[activeTrack]++;
@@ -304,8 +312,16 @@ public class GameManager : MonoBehaviour
         activeLanes.Clear();
 
         rollDiceButton.SetActive(false);
-        nextTurnButton.SetActive(true);
         stopButton.SetActive(false);
+
+        if (!gameOver)
+        {
+            nextTurnButton.SetActive(true);
+        }
+        else
+        {
+            GameOver();
+        }
     }
 
     private bool Busted()
@@ -333,5 +349,25 @@ public class GameManager : MonoBehaviour
         }
         rollDiceButton.SetActive(true);
         nextTurnButton.SetActive(false);
+    }
+
+    private void GameOver()
+    {        
+        pointsMap.SetActive(false);
+        trackLabels.SetActive(false);
+        foreach (Dice die in diceSet)
+        {
+            die.gameObject.SetActive(false);
+        }
+        HideUI();
+        foreach (Player player in players)
+        {
+            foreach (GameObject marker in player.scoreMarkers)
+            {
+                if (marker) marker.SetActive(false);
+            }
+        }
+        gameOverScreen.SetActive(true);
+        gameOverScreen.GetComponent<GameOverScreen>().DisplayWinner(activePlayer, players);
     }
 }

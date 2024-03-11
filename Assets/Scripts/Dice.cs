@@ -20,7 +20,6 @@ public class Dice : MonoBehaviour
     // shuffles dice number sprites and assigns random number 1-6 to die then updates sprites for the possible combos
     public IEnumerator RollDie()
     {
-        rollValue = Random.Range(1, 7);
         int randomSide;
 
         for (int i = 0; i < 20; i++) // cycles through 20 sprites to visualize die roll
