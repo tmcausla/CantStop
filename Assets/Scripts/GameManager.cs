@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject nextTurnButton;
 
     [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TextMeshProUGUI turnIndicator;
     public Player activePlayer;
     public Player[] players;
     private int playerIdx = 0;
@@ -44,6 +45,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         activePlayer = players[0];
+        turnIndicator.color = activePlayer.playerColor;
+        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
     }
 
     // rolls the 4 game dice on a player's turn
@@ -342,6 +345,8 @@ public class GameManager : MonoBehaviour
 
         playerIdx = playerIdx + 1 == players.Length ? 0 : playerIdx + 1;
         activePlayer = players[playerIdx];
+        turnIndicator.color = activePlayer.playerColor;
+        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
 
         for (int i = 0; i < tempScores.Length; i++)
         {
@@ -355,6 +360,7 @@ public class GameManager : MonoBehaviour
     {        
         pointsMap.SetActive(false);
         trackLabels.SetActive(false);
+        turnIndicator.text = "";
         foreach (Dice die in diceSet)
         {
             die.gameObject.SetActive(false);

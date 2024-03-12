@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         if (scores[activeTrack] == gm.pointTracks[activeTrack].pointMax)
         {
             points++;
-            gm.pointTracks[activeTrack].isFinished = true;
+            gm.pointTracks[activeTrack].CloseTrack(this);
         }
 
         if (points >= 3)

@@ -10,4 +10,13 @@ public class PointTrack : MonoBehaviour
     // holds positions on the board for each step on a track
     public Transform[] trackMarkers;
     public bool isFinished = false;
+
+    public GameObject trackBlocker;
+
+    public void CloseTrack(Player player)
+    {
+        isFinished = true;
+        trackBlocker.SetActive(true);
+        trackBlocker.GetComponent<SpriteRenderer>().color = player.playerColor;
+    }
 }

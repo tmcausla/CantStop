@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
@@ -19,5 +20,10 @@ public class GameOverScreen : MonoBehaviour
             playerScores[i].text = $"{players[i].gameObject.name}\n{players[i].points}";
             playerScores[i].color = players[i].playerColor;
         }
+    }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
