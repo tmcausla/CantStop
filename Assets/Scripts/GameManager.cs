@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject pointsMap;
-    [SerializeField] GameObject trackLabels;
+    public GameObject pointsMap;
+    public GameObject trackLabels;
     public PointTrack[] pointTracks;
     public int[] tempScores;
     public GameObject[] tempScoreMarkers;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject rollDiceButton;
     [SerializeField] private GameObject stopButton;
     [SerializeField] private GameObject nextTurnButton;
+    public GameObject backButton;
 
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private TextMeshProUGUI turnIndicator;
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         activePlayer = players[0];
+        rollDiceButton.GetComponent<Image>().color = activePlayer.playerColor;
+
         turnIndicator.color = activePlayer.playerColor;
         turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
     }
@@ -90,6 +94,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("You bust!");
             nextTurnButton.SetActive(true);
+            if (playerIdx + 1 == players.Length)
+            {
+                nextTurnButton.GetComponent<Image>().color = players[0].playerColor;
+            }
+            else
+            {
+                nextTurnButton.GetComponent<Image>().color = players[playerIdx + 1].playerColor;
+            }
         }
     }
 
@@ -320,6 +332,14 @@ public class GameManager : MonoBehaviour
         if (!gameOver)
         {
             nextTurnButton.SetActive(true);
+            if (playerIdx + 1 == players.Length)
+            {
+                nextTurnButton.GetComponent<Image>().color = players[0].playerColor;
+            }
+            else
+            {
+                nextTurnButton.GetComponent<Image>().color = players[playerIdx + 1].playerColor;
+            }
         }
         else
         {
@@ -353,6 +373,12 @@ public class GameManager : MonoBehaviour
             tempScores[i] = activePlayer.scores[i];
         }
         rollDiceButton.SetActive(true);
+        rollDiceButton.GetComponent<Image>().color = activePlayer.playerColor;
+
+        combo1Buttons.ChangeButtonColor(activePlayer);
+        combo2Buttons.ChangeButtonColor(activePlayer);
+        combo3Buttons.ChangeButtonColor(activePlayer);
+
         nextTurnButton.SetActive(false);
     }
 
@@ -375,5 +401,23 @@ public class GameManager : MonoBehaviour
         }
         gameOverScreen.SetActive(true);
         gameOverScreen.GetComponent<GameOverScreen>().DisplayWinner(activePlayer, players);
+    }
+
+    
+
+    public void BackToEndScreen()
+    {
+        gameOverScreen.SetActive(true);
+        pointsMap.SetActive(false);
+        trackLabels.SetActive(false);
+        backButton.SetActive(false);
+
+        foreach (Player player in players)
+        {
+            foreach (GameObject marker in player.scoreMarkers)
+            {
+                if (marker) marker.SetActive(false);
+            }
+        }
     }
 }

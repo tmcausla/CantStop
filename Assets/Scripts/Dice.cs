@@ -17,6 +17,14 @@ public class Dice : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        foreach (Dice die in options)
+        {
+            die.gameObject.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<SpriteRenderer>().color;
+        }
+    }
+
     // shuffles dice number sprites and assigns random number 1-6 to die then updates sprites for the possible combos
     public IEnumerator RollDie()
     {
