@@ -15,7 +15,7 @@ public class ButtonManager : MonoBehaviour
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = FindAnyObjectByType<GameManager>();
     }
 
     private void Start()

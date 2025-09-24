@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = FindAnyObjectByType<GameManager>();
     }
 
     // updates player point markers on active tracks

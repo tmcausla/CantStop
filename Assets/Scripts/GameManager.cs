@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject rollDiceButton;
     [SerializeField] private GameObject stopButton;
     [SerializeField] private GameObject nextTurnButton;
+    [SerializeField] private bool hardMode;
     public GameObject backButton;
 
     [SerializeField] private GameObject gameOverScreen;
@@ -43,14 +43,26 @@ public class GameManager : MonoBehaviour
     // tracks and allows player to roll for up to 3 active lanes during their turn
     public List<int> activeLanes;
     public bool gameOver = false;
+    private static GameManager instance;
+    //I LOVE KELLY SO MUCH
+
+    private void Awake()
+    {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            instance = this;
+            DontDestroyOnLoad(instance);
+        }
+    }
 
     private void Start()
     {
-        activePlayer = players[0];
+        activePlayer = players[0]; // THIS WILL BE REPLACED BY LOADING SELECTIONS FROM PREVIOUS MENU SCREEN INTO GAME MANAGER
         rollDiceButton.GetComponent<Image>().color = activePlayer.playerColor;
 
         turnIndicator.color = activePlayer.playerColor;
-        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
+        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn"; 
     }
 
     // rolls the 4 game dice on a player's turn
@@ -93,16 +105,34 @@ public class GameManager : MonoBehaviour
         if (Busted())
         {
             Debug.Log("You bust!");
+            turnIndicator.text = "YA\nBUST!";
             nextTurnButton.SetActive(true);
-            if (playerIdx + 1 == players.Length)
+            nextTurnButton.GetComponent<Image>().color = playerIdx + 1 == players.Length ? players[0].playerColor : players[playerIdx + 1].playerColor;
+        }
+    }
+
+    public void RollOrStop()
+    {
+        rollDiceButton.SetActive(true);
+        if (activeLanes.Count > 0 && !Busted())
+        {
+            if (hardMode)
             {
-                nextTurnButton.GetComponent<Image>().color = players[0].playerColor;
+                stopButton.SetActive(HardModeCheck());
+                if (!HardModeCheck())
+                {
+                    Debug.Log("HARD MODE BIATCH");
+                }
             }
             else
             {
-                nextTurnButton.GetComponent<Image>().color = players[playerIdx + 1].playerColor;
+                stopButton.SetActive(true);
             }
         }
+
+        combo1Buttons.HideButtons();
+        combo2Buttons.HideButtons();
+        combo3Buttons.HideButtons();
     }
 
 
@@ -120,53 +150,29 @@ public class GameManager : MonoBehaviour
         UpdateTempScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
         UpdateTempScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption1A()
     {
-        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[1].rollValue)) 
+        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[1].rollValue))
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[1].rollValue);
         }
         UpdateTempScore(diceSet[0].rollValue + diceSet[1].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption1B()
     {
-        if (!activeLanes.Contains(diceSet[2].rollValue + diceSet[3].rollValue)) // change to whether die combo is in active lanes
+        if (!activeLanes.Contains(diceSet[2].rollValue + diceSet[3].rollValue)) 
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[3].rollValue);
         }
         UpdateTempScore(diceSet[2].rollValue + diceSet[3].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     // updates temp score using dice combo 2
@@ -183,53 +189,29 @@ public class GameManager : MonoBehaviour
         UpdateTempScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
         UpdateTempScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption2A()
     {
-        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[2].rollValue)) // change to whether die combo is in active lanes
+        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[2].rollValue)) 
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[2].rollValue);
         }
         UpdateTempScore(diceSet[0].rollValue + diceSet[2].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption2B()
     {
-        if (!activeLanes.Contains(diceSet[1].rollValue + diceSet[3].rollValue)) // change to whether die combo is in active lanes
+        if (!activeLanes.Contains(diceSet[1].rollValue + diceSet[3].rollValue)) 
         {
             activeLanes.Add(diceSet[1].rollValue + diceSet[3].rollValue);
         }
         UpdateTempScore(diceSet[1].rollValue + diceSet[3].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     // updates temp score using dice combo 3
@@ -246,53 +228,29 @@ public class GameManager : MonoBehaviour
         UpdateTempScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
         UpdateTempScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption3A()
     {
-        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[3].rollValue)) // change to whether die combo is in active lanes
+        if (!activeLanes.Contains(diceSet[0].rollValue + diceSet[3].rollValue)) 
         {
             activeLanes.Add(diceSet[0].rollValue + diceSet[3].rollValue);
         }
         UpdateTempScore(diceSet[0].rollValue + diceSet[3].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     public void ConfirmOption3B()
     {
-        if (!activeLanes.Contains(diceSet[2].rollValue + diceSet[1].rollValue)) // change to whether die combo is in active lanes
+        if (!activeLanes.Contains(diceSet[2].rollValue + diceSet[1].rollValue)) 
         {
             activeLanes.Add(diceSet[2].rollValue + diceSet[1].rollValue);
         }
         UpdateTempScore(diceSet[2].rollValue + diceSet[1].rollValue - 2);
 
-        rollDiceButton.SetActive(true);
-        if (activeLanes.Count > 0 && !Busted())
-        {
-            stopButton.SetActive(true);
-        }
-
-        combo1Buttons.HideButtons();
-        combo2Buttons.HideButtons();
-        combo3Buttons.HideButtons();
+        RollOrStop();
     }
 
     // moves appropriate temp point marker based on selected dice combo
@@ -319,7 +277,7 @@ public class GameManager : MonoBehaviour
 
     public void StopAndScore()
     {
-        foreach(int lane in activeLanes)
+        foreach (int lane in activeLanes)
         {
             activePlayer.UpdateScore(lane - 2);
             tempScoreMarkers[lane - 2].SetActive(false);
@@ -332,14 +290,7 @@ public class GameManager : MonoBehaviour
         if (!gameOver)
         {
             nextTurnButton.SetActive(true);
-            if (playerIdx + 1 == players.Length)
-            {
-                nextTurnButton.GetComponent<Image>().color = players[0].playerColor;
-            }
-            else
-            {
-                nextTurnButton.GetComponent<Image>().color = players[playerIdx + 1].playerColor;
-            }
+            nextTurnButton.GetComponent<Image>().color = playerIdx + 1 == players.Length ? players[0].playerColor : players[playerIdx + 1].playerColor;
         }
         else
         {
@@ -347,43 +298,50 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool Busted()
+    private bool Busted() 
     {
         return combo1Buttons.bust && combo2Buttons.bust && combo3Buttons.bust;
+    }
+
+    private bool HardModeCheck() //returns false if a temp score marker is overlapping another player's marker,  prevents stop and score
+    {
+        foreach (Player player in players)
+        {
+            if (player == activePlayer)
+            {
+                continue;
+            }
+
+            foreach (int lane in activeLanes)
+            {
+                if (player.scores[lane - 2] == tempScores[lane - 2])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public void StartNextTurn()
     {
         if (activeLanes.Count > 0)
         {
-            foreach(int lane in activeLanes)
+            foreach (int lane in activeLanes)
             {
                 tempScoreMarkers[lane - 2].SetActive(false);
             }
             activeLanes.Clear();
         }
 
-        playerIdx = playerIdx + 1 == players.Length ? 0 : playerIdx + 1;
-        activePlayer = players[playerIdx];
-        turnIndicator.color = activePlayer.playerColor;
-        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
-
-        for (int i = 0; i < tempScores.Length; i++)
-        {
-            tempScores[i] = activePlayer.scores[i];
-        }
-        rollDiceButton.SetActive(true);
-        rollDiceButton.GetComponent<Image>().color = activePlayer.playerColor;
-
-        combo1Buttons.ChangeButtonColor(activePlayer);
-        combo2Buttons.ChangeButtonColor(activePlayer);
-        combo3Buttons.ChangeButtonColor(activePlayer);
-
+        StartCoroutine(FadeAndChangeText());       
+        
         nextTurnButton.SetActive(false);
     }
 
     private void GameOver()
-    {        
+    {
         pointsMap.SetActive(false);
         trackLabels.SetActive(false);
         turnIndicator.text = "";
@@ -403,8 +361,6 @@ public class GameManager : MonoBehaviour
         gameOverScreen.GetComponent<GameOverScreen>().DisplayWinner(activePlayer, players);
     }
 
-    
-
     public void BackToEndScreen()
     {
         gameOverScreen.SetActive(true);
@@ -419,5 +375,52 @@ public class GameManager : MonoBehaviour
                 if (marker) marker.SetActive(false);
             }
         }
+    }
+
+    private IEnumerator Fade(float startAlpha, float endAlpha)
+    {
+        float elapsedTime = 0f;
+        Color textColor = turnIndicator.color;
+
+        while (elapsedTime < 0.5f)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / 0.5f);
+            textColor.a = alpha;
+            turnIndicator.color = textColor;
+            yield return null;
+        }
+
+        textColor.a = endAlpha;
+        turnIndicator.color = textColor;
+    }
+
+    private IEnumerator FadeAndChangeText()
+    {
+        // Fade Out
+        yield return StartCoroutine(Fade(1f, 0f));
+
+        // Wait for 1 second
+        yield return new WaitForSeconds(0.5f);
+        
+        playerIdx = playerIdx + 1 == players.Length ? 0 : playerIdx + 1;
+        activePlayer = players[playerIdx];
+
+        for (int i = 0; i < tempScores.Length; i++)
+        {
+            tempScores[i] = activePlayer.scores[i];
+        }
+
+        turnIndicator.color = activePlayer.playerColor;
+        turnIndicator.text = $"{activePlayer.gameObject.name}'s\nturn";
+        rollDiceButton.SetActive(true);
+        rollDiceButton.GetComponent<Image>().color = activePlayer.playerColor;
+
+        combo1Buttons.ChangeButtonColor(activePlayer);
+        combo2Buttons.ChangeButtonColor(activePlayer);
+        combo3Buttons.ChangeButtonColor(activePlayer);
+
+        // Fade In
+        yield return StartCoroutine(Fade(0f, 1f));
     }
 }

@@ -12,7 +12,7 @@ public class GameOverScreen : MonoBehaviour
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = FindAnyObjectByType<GameManager>();
     }
 
     public void DisplayWinner(Player player, Player[] players)
