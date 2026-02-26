@@ -1,4 +1,46 @@
-This is a project recreating the board game Can't Stop.  It's a push-your-luck dice game where you race up different tracks based on what you roll.  
-Rules for Can't Stop can be found here: https://en.wikipedia.org/wiki/Can%27t_Stop_(board_game)
+## Overview
+A digital implementation of the board game *Can't Stop*, developed in Unity using C#.
 
-The goal of this project is to provide an easy to grasp interface for playing Can't Stop while offering several different aesthetics to customize backgrounds, music, and player pieces.
+This project focuses on turn-based system design, rule enforcement, dice resolution mechanics, and structured player state management.
+
+It explores object-oriented architecture and event-driven gameplay logic.
+
+---
+
+## Features
+- Turn-based gameplay system
+- Dice roll resolution mechanics
+- Rule validation and move enforcement
+- Player state tracking
+- Win condition detection
+- Interactive UI
+
+---
+
+## Tech Stack
+- Unity
+- C#
+- MonoBehaviour scripting
+- Event-driven logic
+
+---
+
+## System Design
+
+The project architecture includes:
+
+- Player state manager
+- Turn controller
+- Dice resolution engine
+- Rule validation module
+- UI synchronization layer
+
+Gameplay logic is separated into modular components to improve readability and maintainability.
+
+---
+
+## Future Improvements
+- AI opponent logic
+- Save/load system
+- Multiplayer support
+- Refactoring toward state machine pattern
